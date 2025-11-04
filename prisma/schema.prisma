@@ -1,5 +1,5 @@
 generator client {
-  provider = "prisma-client"
+  provider = "prisma-client-js"
 }
 
 datasource db {
@@ -13,7 +13,7 @@ model User {
   email         String   @unique
   password_hash String
   created_at    DateTime @default(now())
-  meals          Meal[]
+  meals         Meal[]
 
   @@map("users")
 }

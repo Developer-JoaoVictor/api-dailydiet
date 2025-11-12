@@ -23,6 +23,6 @@ export class UsersController {
       },
     })
 
-    return reply.status(201).send()
+    return reply.status(201).send({ message: ' Usuário criado com sucesso!' })
   }
 }

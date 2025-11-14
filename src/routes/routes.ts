@@ -19,4 +19,12 @@ export async function appRoutes(app: FastifyInstance) {
   app.get('/meals/:id', { preHandler: authenticateToken }, (request, reply) =>
     mealsController.show(request, reply),
   )
+
+  app.get(
+    '/meals/list',
+    { preHandler: authenticateToken },
+    (request, reply) => {
+      mealsController.index(request, reply)
+    },
+  )
 }

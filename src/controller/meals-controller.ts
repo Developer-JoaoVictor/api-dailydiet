@@ -52,4 +52,14 @@ export class MealsController {
 
     return reply.status(201).send({ meal })
   }
+
+  async index(request: FastifyRequest, reply: FastifyReply) {
+    const userId = request.user.id
+
+    const meals = await prisma.meal.findMany({
+      where: { user_id: userId },
+    })
+
+    return reply.status(200).send({ meals })
+  }
 }

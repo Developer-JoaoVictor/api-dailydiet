@@ -1,6 +1,6 @@
-import { FastifyReply, FastifyRequest } from 'fastify'
 import z from 'zod'
 import { prisma } from '../lib/prisma'
+import { FastifyReply, FastifyRequest } from 'fastify'
 
 export class MealsController {
   async show(request: FastifyRequest, reply: FastifyReply) {
@@ -56,10 +56,14 @@ export class MealsController {
   async index(request: FastifyRequest, reply: FastifyReply) {
     const userId = request.user.id
 
-    const meals = await prisma.meal.findMany({
-      where: { user_id: userId },
-    })
+    try {
+      const meals = await prisma.meal.findMany({
+        where: { user_id: userId },
+      })
 
-    return reply.status(200).send({ meals })
+      return reply.status(200).send({ meals })
+    } catch (error) {
+      return reply.status(401).send({ message: 'Meals not found' })
+    }
   }
 }

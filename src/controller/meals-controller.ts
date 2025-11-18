@@ -66,4 +66,43 @@ export class MealsController {
       return reply.status(401).send({ message: 'Meals not found' })
     }
   }
+
+  async update(request: FastifyRequest, reply: FastifyReply) {
+    const paramsSchema = z.object({
+      id: z.string(),
+    })
+
+    const bodySchema = z.object({
+      title: z.string().optional(),
+      description: z.string().optional(),
+      isOnDiet: z.boolean().optional(),
+    })
+
+    const userId = request.user.id
+    const { id } = paramsSchema.parse(request.params)
+    const { title, description, isOnDiet } = bodySchema.parse(request.body)
+
+    try {
+      const meal = await prisma.meal.findFirst({
+        where: { id, user_id: userId },
+      })
+
+      if (!meal) {
+        return reply.status(404).send({ message: 'Meal nout found' })
+      }
+
+      const updateMeal = await prisma.meal.update({
+        where: { id },
+        data: {
+          title,
+          description,
+          is_on_diet: isOnDiet,
+        },
+      })
+
+      return reply.status(200).send(updateMeal)
+    } catch (error) {
+      return reply.status(500).send({ message: 'Internal Sever Error' })
+    }
+  }
 }

@@ -27,4 +27,12 @@ export async function appRoutes(app: FastifyInstance) {
       mealsController.index(request, reply)
     },
   )
+
+  app.patch(
+    '/meals/:id',
+    { preHandler: authenticateToken },
+    (request, reply) => {
+      mealsController.update(request, reply)
+    },
+  )
 }

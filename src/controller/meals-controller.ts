@@ -105,4 +105,32 @@ export class MealsController {
       return reply.status(500).send({ message: 'Internal Sever Error' })
     }
   }
+
+  async delete(request: FastifyRequest, reply: FastifyReply) {
+    const paramsSchema = z.object({
+      id: z.string(),
+    })
+
+    const userId = request.user.id
+
+    const { id } = paramsSchema.parse(request.params)
+
+    try {
+      const meal = await prisma.meal.findFirst({
+        where: { id, user_id: userId },
+      })
+
+      if (!meal) {
+        return reply.status(404).send({ message: 'Meal not found' })
+      }
+
+      await prisma.meal.delete({
+        where: { id },
+      })
+
+      return reply.status(200).send({ message: 'Meal successfully deleted ' })
+    } catch (error) {
+      return reply.status(500).send({ message: 'Internal Sever Error' })
+    }
+  }
 }

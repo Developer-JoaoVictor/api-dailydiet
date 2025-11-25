@@ -35,4 +35,10 @@ export async function appRoutes(app: FastifyInstance) {
       mealsController.update(request, reply)
     },
   )
+
+  app.delete(
+    '/meals/:id',
+    { preHandler: authenticateToken },
+    (request, reply) => mealsController.delete(request, reply),
+  )
 }

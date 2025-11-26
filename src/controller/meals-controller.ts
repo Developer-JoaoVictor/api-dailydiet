@@ -13,7 +13,7 @@ export class MealsController {
     const { id } = showMealParamsSchema.parse(request.params)
 
     try {
-      const meal = await prisma.meal.findFirst({
+      const meal = await prisma.meal.findUnique({
         where: {
           id,
           user_id: userId,
@@ -21,7 +21,7 @@ export class MealsController {
       })
 
       if (!meal) {
-        return reply.status(404).send({ message: 'Meal not foud' })
+        return reply.status(404).send({ message: 'Meal not found' })
       }
 
       return reply.status(200).send({ meal })
@@ -63,13 +63,13 @@ export class MealsController {
 
       return reply.status(200).send({ meals })
     } catch (error) {
-      return reply.status(401).send({ message: 'Meals not found' })
+      return reply.status(500).send({ message: 'Meals not found' })
     }
   }
 
   async update(request: FastifyRequest, reply: FastifyReply) {
     const paramsSchema = z.object({
-      id: z.string(),
+      id: z.uuid(),
     })
 
     const bodySchema = z.object({
@@ -100,7 +100,7 @@ export class MealsController {
         },
       })
 
-      return reply.status(200).send(updateMeal)
+      return reply.status(200).send({ meal: updateMeal })
     } catch (error) {
       return reply.status(500).send({ message: 'Internal Sever Error' })
     }
@@ -128,7 +128,7 @@ export class MealsController {
         where: { id },
       })
 
-      return reply.status(200).send({ message: 'Meal successfully deleted ' })
+      return reply.status(204).send()
     } catch (error) {
       return reply.status(500).send({ message: 'Internal Sever Error' })
     }

@@ -1,49 +1,85 @@
-# 🍽️ API de Registro de Refeições
+# 🍽️ Daily Diet API
 
-API desenvolvida em **Node.js** com **TypeScript** para registrar e gerenciar as refeições dos usuários, permitindo acompanhar se cada refeição está ou não dentro da dieta.
+Uma API completa desenvolvida com **Node.js**, **TypeScript**,
+**Fastify** e **Prisma**, com foco em controle de refeições e métricas
+de dieta.
 
----
+## 🚀 Tecnologias Utilizadas
 
-## 🚀 Status do Projeto
-> 🧩 Em desenvolvimento
+-   Node.js
+-   TypeScript
+-   Fastify
+-   Prisma ORM
+-   PostgreSQL
+-   Docker
+-   Zod
+-   JWT Authentication
 
-Este projeto faz parte do meu aprendizado prático de backend com Node.js.
+## 📌 Funcionalidades Principais
 
----
+### ✔️ **Usuarios**
 
-## 🎯 Objetivo
+-   Cadastro de usuário
+-   Login com JWT
+-   Rotas protegidas
 
-Aplicar na prática conceitos fundamentais de desenvolvimento backend, incluindo:
+### ✔️ **Refeições**
 
-- Criação de uma **API RESTful** com boas práticas;
-- Uso do **Prisma ORM** com banco **PostgreSQL**;
-- **Validações** com Zod;
-- **Controle de versionamento** com Conventional Commits e Commitizen;
-- Estruturação de código limpa e organizada.
+-   Criar refeição
+-   Editar refeição
+-   Apagar refeição
+-   Listar refeições
+-   Buscar refeição por ID
 
----
+### ✔️ **Métricas**
 
-## ⚙️ Tecnologias Utilizadas
+-   Total de refeições cadastradas
+-   Total de refeições dentro da dieta
+-   Total de refeições fora da dieta
+-   **Melhor sequência de refeições dentro da dieta (best sequence)**
 
-- **Node.js**
-- **TypeScript**
-- **Fastify**
-- **Prisma**
-- **PostgreSQL**
-- **Zod**
-- **Docker**
-- **Commitizen**
+## 📊 Endpoint de Métricas (Resumo)
 
----
+O sistema retorna:
 
-## 📌 Funcionalidades Planejadas
+``` json
+{
+  "totalMeals": 10,
+  "totalMealsOnDiet": 7,
+  "totalMealsOffDiet": 3,
+  "bestSequence": 4
+}
+```
 
-- [ ] Cadastro e autenticação de usuários  
-- [ ] Registro de refeições  
-- [ ] Marcar se a refeição está dentro ou fora da dieta  
-- [ ] Listagem e detalhes das refeições  
-- [ ] Relatórios de progresso do usuário (melhor sequência dentro da dieta, total de refeições, etc.)
+## 📁 Estrutura do Projeto
 
----
+    src/
+     ├── @types/
+     ├── controllers/
+     ├── env/
+     ├── lib/
+     ├── middleware/
+     ├── routes/
+     ├── app.ts
+     └── server.ts
 
-## 🧱 Estrutura do Projeto (em construção)
+## 🧠 Lógica da Melhor Sequência
+
+Percorre todas as refeições em ordem cronológica:
+- Se a refeição é "on_diet", aumenta a sequência atual
+- Se não for, zera a contagem
+- Sempre compara com a maior sequência registrada
+
+------------------------------------------------------------------------
+
+## 👨‍💻 Desenvolvedor
+
+**João Victor**\
+🔗 LinkedIn: www.linkedin.com/in/dev-joaovictor
+🐙 GitHub: https://github.com/Developer-JoaoVictor
+
+------------------------------------------------------------------------
+
+## 📜 Licença
+
+Este projeto é open-source e você pode usá-lo como quiser.

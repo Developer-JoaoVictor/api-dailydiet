@@ -59,6 +59,7 @@ export class MealsController {
     try {
       const meals = await prisma.meal.findMany({
         where: { user_id: userId },
+        orderBy: { created_at: 'asc' },
       })
 
       return reply.status(200).send({ meals })

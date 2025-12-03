@@ -3,10 +3,12 @@ import { authenticateToken } from '../middleware/authenticated'
 import { UsersController } from '../controller/users-controller'
 import { SessionsController } from '../controller/sessions-controller'
 import { MealsController } from '../controller/meals-controller'
+import { MetricsControlller } from '../controller/metrics-controller'
 
 const usersController = new UsersController()
 const sessionsController = new SessionsController()
 const mealsController = new MealsController()
+const metricsController = new MetricsControlller()
 
 export async function appRoutes(app: FastifyInstance) {
   app.post('/user', (request, reply) => usersController.create(request, reply))
@@ -40,5 +42,11 @@ export async function appRoutes(app: FastifyInstance) {
     '/meals/:id',
     { preHandler: authenticateToken },
     (request, reply) => mealsController.delete(request, reply),
+  )
+
+  app.get(
+    '/metrics/summary',
+    { preHandler: authenticateToken },
+    (request, reply) => metricsController.summary(request, reply),
   )
 }
